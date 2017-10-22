@@ -1,15 +1,57 @@
 module.exports = function(bot) {
 
-	// var company = "storybook";
+	var baseURL = "www.thirdhand.jamesgarrett.co";
+	var company = "storybook";
 
-	// var logoFile = "logo.png";
+	var logoFile = "logo.png";
+	// logoTypes = ['inverse', 'text', 'transparent', 'large'];
+	// fileTypes = ['jpg', 'png', 'svg', 'pdf'];
 
-	// var fontName = "Open Sans";
-	// var fontFile = "open-sans.zip";
+	var logo = baseURL + "/companies/" + company + "/logos/" + logoFile;
+	// var logo = baseURL + "/companies/" + company + "/logos/" + logoType + fileType;
 
-	// var logo = company + "/logos/" + logoFile;
-	// var logo = company + "/logos/" + logoFile;
-	
+	var fontFile = "open-sans.zip";
+
+	var fonts = {
+		headline : ['Open-Sans','bold'],
+		body : ['Lato','book'],
+	}
+
+	var fontWeights = ['extra bold','bold','book','light','ultra light'];
+
+	var headlineFont = baseURL + "/companies/" + company + "/fonts/" + fonts.headline[0] + ".zip";
+	var bodyFont = baseURL + "/companies/" + company + "/fonts/" + fonts.body[0] + ".zip";
+
+    brandColors = {
+    	primary : '#4ac3d1',
+    	secondary : '#0F3247',
+    	uiWhite : '#ffffff',
+	    uiGray : 'd8d8d8',
+    }
+
+
+  //   var logo = {
+		//     "attachments": [
+		//         {
+		//             "fallback": "Storybook Logo",
+		//             "color": "#4ac3d1",
+		//             "pretext": "Here you go!",
+		//             "author_name": "Thirdhand",
+		//             "author_link": "http://jamesgarrett.co/",
+		//             "author_icon": "http://jamesgarrett.co/img/agency/team/1.jpg",
+		//             "title": "Storybook Logo",
+		//             "title_link": "http://thirdhand.jamesgarrett.co/companies/storybook/logos/logo.png",
+		//             "text": "Transparent PNG logo for Storybook",
+		//             "image_url": "http://thirdhand.jamesgarrett.co/companies/storybook/logos/logo.png",
+		//             "thumb_url": "http://thirdhand.jamesgarrett.co/companies/storybook/logos/logo.png",
+		//             "footer": "Thirdhand: A tool for designers",
+		//             "footer_icon": "http://jamesgarrett.co/img/agency/team/1.jpg",
+		//             "ts": 123456789
+		//         }
+		//     ]
+		// }
+
+
 	// var font = company + "/fonts/" + fontFile;
 
 	// return res.send('Sure can boss!');
@@ -19,27 +61,57 @@ module.exports = function(bot) {
 	// console.log(fontFileName);
 
 
+
+  
+   // robot.enter (res) ->
+   //   res.send res.random enterReplies
+   // robot.leave (res) ->
+   //   res.send res.random leaveReplies
+
+
 	bot.hear(/thirdhand/i, function(res){
-		return res.send('Hey ' + "display_name" + '. How can I help you today? \n');
-		return res.send('Not sure? Try one of these: \n 1. Can you send me our logo? \n 2. What font do we use? \n 3. What are our brand colors? \n 4. Can you send me the style guide?');
+		return res.send('Hello! try one of these: '+
+			'\n Can you send me our logo? ' +
+			'\n What font do we use? ' +
+			'\n What are our brand colors? ' +
+			'\n Can you send me the style guide?'
+		);
 	})
 
-	bot.hear(/Can you send me the logo?/i, function(res){
+	bot.hear(/Can you send me the (logo|logos)?/i, function(res){
 
-		return res.send("Sure can boss! \n You can download it here:" + "logo");
+		return res.send("Here you go!" + logo);
 
 	})
 
-	bot.respond(/What font do we use?/i, function(res){
+	bot.hear(/What (font|fonts) do we use?/i, function(res){
 
-		return res.send("We use " + "Open Sans"); // fontName
-		return res.send("You can download it here: " + "font");
+			if (fonts.headline && fonts.body === true){
+				return res.send("We use different fonts in different places. \n"  
+					+ "We use " + fonts.headline[0] + " " + fonts.headline[1] 
+					+ " as our headline font. \n You can download it here:" 
+					+ headlineFont + "\n"
+					+ "We use " + fonts.body[0] + " " + fonts.body[1] 
+					+ " as our body font. \n You can download it here:" 
+					+ bodyFont + "\n"
+				); 
+			} else {
+				return res.send("We use " + fonts.headline[0] + " " + fonts.headline[1] 
+					+ " as our headline font. \n You can download it here:" 
+					+ headlineFont + "\n"
+				);
+			}
+		
 
 	})
 
 	bot.respond(/What are our brand colors?/i, function(res){
 
-		return res.send("Our brand colors are " + "#4ac3d1");
+		return res.send("Our brand colors are \n" 
+			+ "Pacific Noon: " + brandColors.primary + "\n"
+			+ "Atlantic Night: " + brandColors.secondary
+			);
+	
 	})
 
 }
